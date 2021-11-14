@@ -116,8 +116,6 @@ func sorteandoFruta(frutas []string) []string {
 
 func leituraArquivo() []string {
 
-	var frutas []string
-
 	arquivo, err := os.Open("frutas.txt")
 
 	if err != nil {
@@ -128,16 +126,9 @@ func leituraArquivo() []string {
 
 	leitor := bufio.NewReader(arquivo)
 
-	for {
-		fruta, err := leitor.ReadString('\n')
-		fruta = strings.TrimSpace(fruta)
+	
 
-		if err == io.EOF {
-			break
-		}
-
-		frutas = append(frutas, fruta)
-	}
+	frutas := montadorSlice(leitor)
 
 	arquivo.Close()
 
@@ -147,4 +138,22 @@ func leituraArquivo() []string {
 func intro() {
 	fmt.Println("Olá, bem vindo ao Adivinhe a Fruta")
 	fmt.Println("")
+}
+
+func montadorSlice(leitor *bufio.Reader) []string {
+
+	var frutas []string
+	
+	for {
+		fruta, err := leitor.ReadString('\n')
+		fruta = strings.TrimSpace(fruta)
+	
+		if err == io.EOF {
+			break
+		}
+	
+		frutas = append(frutas, fruta)
+	}
+	
+	return frutas
 }
